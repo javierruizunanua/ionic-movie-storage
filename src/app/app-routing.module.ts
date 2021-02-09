@@ -7,31 +7,24 @@ const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full'
   },
-  { path: 'home',
-    loadChildren: () => import('./home/home.module').then(
-      m => m.HomePageModule)
+  {
+    path: 'home',
+    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
   },
   {
     path: 'details/:id',
-    loadChildren: './details/details.module#DetailsPageModule'
+    loadChildren: () => import('./details/details.module').then( m => m.DetailsPageModule )
   },
   {
     path: 'create',
-    loadChildren: './create/create.module#CreatePageModule'
+    loadChildren: () => import('./create/create.module').then( m => m.CreatePageModule )
   },
-  /*{
-    path: 'edit/:id',
-    loadChildren: './edit/edit.module#EditPageModule'
-  },*/
-
 ];
-  
+
 @NgModule({
   imports: [
-    RouterModule.forRoot( routes, { preloadingStrategy: PreloadAllModules } )
+    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
   ],
-  
-  exports: [ RouterModule ]
-}) 
-
-export class AppRoutingModule { }
+  exports: [RouterModule]
+})
+export class AppRoutingModule {}

@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { IMovie } from '../shared/interfaces';
-import { MoviedbService } from '../core/moviedb.service';
 import { Router } from '@angular/router';
-import { DetailsPage } from '../details/details.page';
+import { GamedbService } from '../core/gamedb.service';
+import { IGame } from '../share/interfaces';
 
 @Component({
   selector: 'app-home',
@@ -11,75 +10,64 @@ import { DetailsPage } from '../details/details.page';
 })
 export class HomePage implements OnInit {
 
-  public movies: IMovie[];
-  moviesinit: IMovie[] = [
+  public games: IGame[];
+  gamesinit: IGame[] = [
     {
       id: '1',
-      name: 'EL padrino',
-      genre: 'Grangsteres, Drama',
-      date: '1972',
-      cover:'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/The_Godfather_movie_logo.png/250px-The_Godfather_movie_logo.png',
-      description: `El Padrino (título original en inglés: The Godfather1
-        ) es una película estadounidense de 1972 dirigida por Francis Ford
-        Coppola. El filme fue producido por Albert S. Ruddy, de la compañía
-        Paramount Pictures. Está basada en la novela homónima (que a su vez está
-        basada en la familia real de los Mortillaro de Sicilia), de Mario Puzo,
-        quien adaptó el guion junto a Coppola y Robert Towne, este último sin ser
-        acreditado`,
+      name: 'Fifa 21',
+      genre: 'Deporte',
+      date: '2020',
+      cover:'https://media.extra.com/s/aurora/100193034_800/FIFA-21-Deluxe-PS4?locale=en-GB,en-*,*&$Listing-Product-2x$',
+      description: `FIFA 21 es un videojuego de simulación de fútbol del año 2020 
+      disponible para Microsoft Windows, PlayStation 4, Xbox One y Nintendo Switch 
+      el 9 de octubre de 2020, y aparte es el primer videojuego de la serie FIFA para Google Stadia, 
+      PlayStation 5 y Xbox Series X|S.`,
     },
     {
       id: '2',
-      name: 'Kill Bill',
-      genre: 'acción, película de violación y venganza y artesmarciales',
-      date: '2003',
-      cover: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Kill_Bill_svg_logo.svg/800px-Kill_Bill_svg_logo.svg.png',
-      description: `Kill Bill es una película de acción y suspenso
-        estadounidense de dos partes estrenada en 2003 y 2004 respectivamente,
-        que fue escrita y dirigida por Quentin Tarantino. Kill Bill originalmente
-        fue propuesta para tener un lanzamiento único en los cines, pero con una
-        duración de más de cuatro horas, fue separada en dos volúmenes: Kill
-        Bill: Volumen 1, lanzada a finales de 2003, y Kill Bill: Volumen 2,
-        lanzada a inicios de 2004. Las dos películas fueron bien recibidas por la
-        crítica, muchos notando su estilo de dirección y su homenaje a géneros
-        cinematográficos como las películas de artes marciales hongkonesa, las
-        películas de samuráis, spaghetti western, chicas con armas y venganza.`
+      name: 'Read Dead Redemption 2',
+      genre: 'Acción, Western, Atracos',
+      date: '2018',
+      cover: 'https://i.pinimg.com/originals/4b/e0/45/4be0454eeb9364a40f75d80701017924.png',
+      description: `Red Dead Redemption 2 es un videojuego de acción-aventura western, 
+      en un mundo abierto y en perspectiva de primera y tercera persona, ​
+      con componentes para un jugador y multijugador.​ Fue desarrollado por Rockstar Games. 
+      Es la precuela de Red Dead Redemption y el tercer juego de la saga Red Dead.`
     }
   ];
 
+  constructor(private gamedbService: GamedbService, private route: Router) { }
 
-  constructor(private moviedbService: MoviedbService, private route: Router) { }
-
-  ngOnInit(): void {
+  ngOnInit() {
     // If the database is empty set initial values
     this.inicialization();
   }
 
   ionViewDidEnter(){
-     // Remove elements if it already has values
-    if(this.movies !== undefined ){
-      this.movies.splice(0);
-    }
-    this.retrieveValues();
-  }
+    // Remove elements if it already has values
+   if(this.games !== undefined ){
+     this.games.splice(0);
+   }
+   this.retrieveValues();
+ }
 
-  inicialization() {
-    if (this.moviedbService.empty()) {
-      this.moviesinit.forEach(movie => {
-        this.moviedbService.setItem(movie.id, movie);
-      });
-    }
-  }
+ inicialization() {
+   if (this.gamedbService.empty()) {
+     this.gamesinit.forEach(game => {
+       this.gamedbService.setItem(game.id, game);
+     });
+   }
+ }
 
-  retrieveValues(){
-    // Retrieve values
-    this.moviedbService.getAll().then(
-      (data) => this.movies = data 
-     );
-  }
+ retrieveValues(){
+   // Retrieve values
+   this.gamedbService.getAll().then(
+     (data) => this.games = data 
+    );
+ }
 
-  movieTapped(movie) {
-    this.route.navigate(['details', movie.id]);
-  }
-     
+ gameTapped(game) {
+   this.route.navigate(['details', game.id]);
+ }
+
 }
-

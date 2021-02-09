@@ -1,20 +1,20 @@
 import { Injectable } from '@angular/core';
-import { IMovie } from '../share/interfaces';
+import { IGame } from '../share/interfaces';
 import { Storage } from '@ionic/storage';
 
 @Injectable({
   providedIn: 'root'
 })
-export class MoviedbService {
-
-  auxMovie: IMovie;
-  auxMovieList: IMovie[] = [];
+export class GamedbService {
+  
+  auxGame: IGame;
+  auxGameList: IGame[] = [];
 
   constructor(private storage: Storage) { }
 
   
    // Stores a value
-  setItem(reference: string, value: IMovie) {
+  setItem(reference: string, value: IGame) {
     this.storage.set(
       reference,
       {
@@ -33,7 +33,7 @@ export class MoviedbService {
 
 
   // Gets a stored item
-  getItem(reference):Promise<IMovie>{
+  getItem(reference):Promise<IGame>{
     return this.storage.get(reference);
   }
 
@@ -50,17 +50,17 @@ export class MoviedbService {
   }
 
   // Retrieving all values
-  getAll():Promise<IMovie[]> {
+  getAll():Promise<IGame[]> {
     return this.storage.keys()
       .then( (k)=> { 
         k.forEach(element =>
           {
-            this.getItem(element).then( (data:IMovie)=>
-              this.auxMovieList.push(data)
+            this.getItem(element).then( (data:IGame)=>
+              this.auxGameList.push(data)
             );
           }
         );
-        return this.auxMovieList;
+        return this.auxGameList;
       });
  }
 
@@ -78,11 +78,6 @@ export class MoviedbService {
       data => console.log(data),
       error => console.error(error)
     );
-  }
-
-  update(movie: IMovie) {
-    return this.storage.set(movie.id, movie);
-  
   }
  
  

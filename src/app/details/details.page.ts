@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MoviedbService } from '../core/moviedb.service';
-import { IMovie } from '../shared/interfaces';
+import { GamedbService } from '../core/gamedb.service';
+import { IGame } from '../share/interfaces';
 import { ToastController } from '@ionic/angular';
 
 @Component({
@@ -12,12 +12,12 @@ import { ToastController } from '@ionic/angular';
 
 export class DetailsPage implements OnInit {
   id: string;
-  public movie: IMovie;
+  public game: IGame;
 
   constructor(
     private activatedrouter: ActivatedRoute,
     private router: Router,
-    private moviedbService: MoviedbService,
+    private gamedbService: GamedbService,
     public toastController: ToastController
   ) { }
 
@@ -25,18 +25,18 @@ export class DetailsPage implements OnInit {
   ngOnInit() {
 
     this.id = this.activatedrouter.snapshot.params.id;
-    this.moviedbService.getItem(this.id).then(
-      (data:IMovie)=> this.movie = data
+    this.gamedbService.getItem(this.id).then(
+      (data:IGame)=> this.game = data
     );
   }
  
-  editRecord(movie){
-    this.router.navigate(['edit',movie.id])
+  editRecord(game){
+    this.router.navigate(['edit',game.id])
   }
   
   async removeRecord(id) {
     const toast = await this.toastController.create({
-      header: 'Elimiar película',
+      header: 'Eliminar juego',
       position: 'top',
       buttons: [
         {
@@ -44,7 +44,7 @@ export class DetailsPage implements OnInit {
           icon: 'delete',
           text: 'ACEPTAR',
           handler: () => {
-            this.moviedbService.remove(id);
+            this.gamedbService.remove(id);
             this.router.navigate(['home']);
           }
         },

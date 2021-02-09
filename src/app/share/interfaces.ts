@@ -1,4 +1,4 @@
-export interface IMovie {
+export interface IGame {
     id: string;
     name: string;
     genre: string;
