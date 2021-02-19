@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { GamedbService } from '../core/gamedb.service';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
+import { GamecrudService } from '../core/gamecrud.service';
 import { IGame } from '../share/interfaces';
 
 @Component(
@@ -18,7 +18,7 @@ export class CreatePage implements OnInit {
   
   constructor(
     private router: Router,
-    private gamedbService: GamedbService,
+    private gamecrudService: GamecrudService,
     public toastController: ToastController
     ) { }
     
@@ -62,11 +62,17 @@ export class CreatePage implements OnInit {
     } 
 
 
-    saveGame() { 
-      this.game = this.gameForm.value; 
-      let nextKey = this.game.name.trim(); 
-      this.game.id = nextKey; 
-      this.gamedbService.setItem(nextKey, this.game ); 
-      console.warn(this.gameForm.value); 
+    saveGame() {
+      this.game = this.gameForm.value;
+
+      let record = {};
+      record['name'] = this.game.name;
+      record['genre'] = this.game.genre;
+      record['date'] = this.game.date;
+      record['cover'] = this.game.cover;
+      record['description'] = this.game.description;
+
+      this.gamecrudService.create_Game(record);
+
     } 
   }
